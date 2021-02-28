@@ -1,4 +1,6 @@
 # CalciPy - Calculator Using Python
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)
 
 A basic calculator developed in Python3 using the standard tkinter library of python. The aim of this project was to make a calculator like the exact clone of Windows calculator.
 
