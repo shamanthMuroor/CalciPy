@@ -28,3 +28,6 @@ CalciPy supports basic operations like:
 * Square root
 
 It also supports parentheses and decimals.
+
+## Image
+![CalciPy](https://user-images.githubusercontent.com/34954560/109415448-cd5c2200-79de-11eb-8513-36f4d6200bba.png)
