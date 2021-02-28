@@ -1,2 +1,7 @@
 Failed_tries
 Backup
+__pycache__
+build
+dist
+calculator.ico
+CalciPy.spec

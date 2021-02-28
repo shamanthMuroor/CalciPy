@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 """ Calculator App """
 
 import tkinter as tk
@@ -153,8 +155,3 @@ Bequal.grid(row=6, column=3, sticky="nsew", padx=2, pady=2)
 
 
 calculator.mainloop()
-
-
-
-
-
