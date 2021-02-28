@@ -3,10 +3,17 @@
 A basic calculator developed in Python3 using the standard tkinter library of python. The aim of this project was to make a calculator like the exact clone of Windows calculator.
 
 
+## Prerequisite
+
+Python3 has to be already installed
+
 ## Running the Program/Usage
 
-sudo apt-get install python3.8 python3-tk
+* Command to install Tkinter
+`sudo apt-get install python3-tk`
 
+* Run CalciPy
+`python3 CalciPy.py`
 
 ## Features
 
