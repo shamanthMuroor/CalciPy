@@ -7,43 +7,51 @@ from tkinter import messagebox
 import re
 
 expression = "" 
-
 def set_equation(n):
     global expression
-    if len(expression) < 20:
+    if str.__len__(expression) < 20:
         expression += n
         equation.set(expression)
 
-def operator(op):
-    listops = ["+", "-", "*", "/", "%"]
-    global expression 
-    if expression != "":
-        if expression[-1] in listops:
-            expression = expression[:-1]
-    expression += op
-    equation.set(expression)
 
+def oper(func):
+    def inner(op):
+        global expression
+        if not expression:
+            func(op)
+        else:
+            expression = expression.__add__(op)
+            equation.set(expression)
+    return inner
+
+@oper
+def operator(op):
+    """ Addition, Subtraction, Multiplication, Division """
+    global expression
+    if op == "-":
+        expression = expression.__add__(op)
+        equation.set(expression)
+
+@oper
 def sploperator(op):
     """ Power(^), Root(√), Dot(.) """
-    global expression 
-    if expression != "":
-        if expression[-1] == op:
-            expression = expression[:-1]
-    expression += op
-    equation.set(expression)
-
+    global expression
+    if op == "√":
+        expression = expression.__add__(op)
+        equation.set(expression)
+        
 def calc():
     try:  
         global expression
         listops = ["+", "-", "*", "/", "%", "^", "√"]
-        if expression[-1] not in listops:
+        ops = ["+", "*", "/", "%", "^"]
+        if expression[-1] not in ops:
             if "^" in expression:
                 expression = expression.replace("^", "**")
             if "√" in expression:
                 x = expression.find("√")
                 if expression[x+1:] in listops:
                     y = expression[x+1:].find(listops)
-                    print(y)
                     expression = expression[:x] + expression[x+1:y] + "**(1/2)" + expression[y:]
                 else:
                     expression = expression[:x] + expression[x+1:] + "**(1/2)"
@@ -54,16 +62,22 @@ def calc():
                         expression = re.sub(r"0(\d[\+\*\%\-\d]*)", r"\1", expression)
                     else:
                         remzero = False
-                    
-            total = str(eval(expression)) 
+
+            # Magic Method int.__str__() to convert evaluated integer into string
+            total = int.__str__(eval(expression)) 
             equation.set(total) 
-            expression = total        
+            expression = total
+    # Exception handlers  
     except ValueError:
         messagebox.showerror("Warning","Check your input")
-        expression = ""
     except ZeroDivisionError:
         messagebox.showerror("Error", "Division by zero error")
+    except Exception:
+        messagebox.showerror("Error", "Invalid Input")
+        equation.set("")
+    finally:
         expression = ""
+
                     
 def clearinputs():
     global expression
@@ -76,7 +90,7 @@ def delprev():
         expression = expression[:-1]
     equation.set(expression)
 
-
+# Initialize calculator
 calculator = tk.Tk()
 calculator.title("Calculator")
 calculator.minsize(450,540)
@@ -91,6 +105,8 @@ input_field = tk.Entry(calculator, textvariable=equation, justify="right", bd=0,
 input_field.grid(row=0, column=0, columnspan=4, sticky="nsew")
 equation.set(0) 
 
+
+# Button design
 Bleftbracker = tk.Button(calculator, text="(", relief="flat", bg="#0e0f0f", fg="#f5f6fa", activebackground='#0097e6', activeforeground= "#000000", command=lambda: set_equation("("))
 Brightbracker = tk.Button(calculator, text=")", relief="flat", bg="#0e0f0f", fg="#f5f6fa", activebackground='#0097e6', activeforeground= "#000000", command=lambda: set_equation(")"))
 Bclear = tk.Button(calculator, text="AC", relief="flat", bg="#0e0f0f", fg="#f5f6fa", activebackground='#d63031', activeforeground= "#000000", command=clearinputs)
@@ -122,7 +138,7 @@ Bequal = tk.Button(calculator, text="=", relief="flat", bg="#0e0f0f", fg="#f5f6f
 
 
 
-
+# Button Grids and layout
 Bleftbracker.grid(row=1, column=0, sticky="nsew", padx=2, pady=2)
 Brightbracker.grid(row=1, column=1, sticky="nsew", padx=2, pady=2)
 Bclear.grid(row=1, column=2, sticky="nsew", padx=2, pady=2)
@@ -132,7 +148,6 @@ Bpercent.grid(row=2, column=0, sticky="nsew", padx=2, pady=2)
 Bpower.grid(row=2, column=1, sticky="nsew", padx=2, pady=2)
 Broot.grid(row=2, column=2, sticky="nsew", padx=2, pady=2)
 Bdiv.grid(row=2, column=3, sticky="nsew", padx=2, pady=2)
-
 
 B7.grid(row=3, column=0, sticky="nsew", padx=2, pady=2)
 B8.grid(row=3, column=1, sticky="nsew", padx=2, pady=2)
